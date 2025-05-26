@@ -1,0 +1,204 @@
+body {
+    background-color: #1e1e1e;
+    font-family: Arial, sans-serif;
+    margin: 0;
+  }
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+  }
+.login-container,
+.register-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+.login-container button {
+    background-color: #333;
+    color: white;
+  }
+.login-container button:hover {
+    background-color: #555;
+  }
+.login-container .links {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+  }
+.login-container .links a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    margin-top: 5px;
+  }
+.login-container .links a:hover {
+    text-decoration: underline;
+  }
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+.cancel-btn {
+    background-color: #e0e0e0;
+    color: #333;
+    width: auto;
+  }
+.register-btn {
+    background-color: #333;
+    color: white;
+    width: auto;
+  }
+.register-btn:hover {
+    background-color: #555;
+  }
+.package-form-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+.package-form-container button {
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+.package-form-container button:hover {
+    background-color: #555;
+  }
+.package-form-container a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+  }
+.package-form-container a:hover {
+    text-decoration: underline;
+  }
+.edit-profile-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+.edit-profile-container input[type="text"],
+.edit-profile-container input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+.edit-profile-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+.edit-profile-container .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+.save-btn {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+.save-btn:hover {
+    background-color: #555;
+  }
+.dialog {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: #000;
+    max-width: 300px;
+    text-align: center;
+  }
+.dialog-title {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+.dialog-body {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+.dialog button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+.dialog button:hover {
+    background-color: #555;
+  }
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #bbb;
+    padding: 0px 40px;
+  }
+.header-right{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+.logo img {
+    height: 80px; 
+  }
+.nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+  }
+.user-box button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
