@@ -1,5 +1,5 @@
 <div class="register-container">
-    <form method="POST" action="/PHP/register.php">
+    <form id="registerForm">
         <label for="login">Login</label>
         <input type="text" id="login" name="login" required>
 
@@ -19,8 +19,8 @@
         <input type="password" id="password" name="password" required>
 
         <div class="buttons">
-            <input type="reset" class="cancel-btn" onclick="event.preventDefault(); loadForm('form_login')" value="Anuluj">
-            <input type="submit" class="register-btn" value="Zarejestruj się">
+            <button type="reset" class="cancel-btn" onclick="event.preventDefault(); loadForm('form_login')">Anuluj</button>
+            <button type="submit" class="register-btn">Zarejestruj się</button>
         </div>
     </form>
 </div>

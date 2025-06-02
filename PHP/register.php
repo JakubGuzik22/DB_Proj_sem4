@@ -40,5 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_close($conn);
     }
 }
-header("Location: ../index.php");
-?>
+http_response_code(200);
+echo "OK";
+exit;

@@ -1,5 +1,5 @@
 <div class="register-container">
-    <form method="post" action="">
+    <form id="passResetForm">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
     
