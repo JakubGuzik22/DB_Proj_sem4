@@ -1,5 +1,4 @@
 <?php
-require_once '../DbConnect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = trim($_POST['login']);
@@ -10,9 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $haslo = $_POST['password'];
 
     if ($login && $email && $imie && $nazwisko && $nr_telefonu && $haslo) {
-        $conn = mysqli_connect("localhost", "root", "", "firmakurierska");
+        mysqli_report(MYSQLI_REPORT_OFF);
+        @$conn = mysqli_connect("localhost", "root", "", "firmakurierska");
         if (!$conn) {
-            die("Błąd połączenia z bazą: " . mysqli_connect_error());
+            http_response_code(500);
+            echo "Bład połączenia z bazą";
+            exit;
         }
 
         $login = mysqli_real_escape_string($conn, $login);
@@ -21,25 +23,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nazwisko = mysqli_real_escape_string($conn, $nazwisko);
         $nr_telefonu = mysqli_real_escape_string($conn, $nr_telefonu);
 
-        $sqlCheck = "SELECT użytkownik_id FROM użytkownicy WHERE login='$login' OR email='$email'";
+        $sqlCheck = "SELECT użytkownik_id FROM użytkownicy WHERE email='$email'";
         $result = mysqli_query($conn, $sqlCheck);
         if (!$result) {
-            die("Błąd zapytania: " . mysqli_error($conn));
+            echo "Błąd zapytania";
+            mysqli_close($conn);
+            exit;
+            // die("Błąd zapytania: " . mysqli_error($conn));
         }
 
-        if (mysqli_num_rows($result) === 0) {
-            $haslo_hash = password_hash($haslo, PASSWORD_BCRYPT);
-            $haslo_hash = mysqli_real_escape_string($conn, $haslo_hash);
-
-            $sqlInsert = "INSERT INTO użytkownicy (login, haslo_hash, email, imie, nazwisko, nr_telefonu, rola) 
-                          VALUES ('$login', '$haslo_hash', '$email', '$imie', '$nazwisko', '$nr_telefonu', 'klient')";
-            if (!mysqli_query($conn, $sqlInsert)) {
-                die("Błąd dodawania użytkownika: " . mysqli_error($conn));
-            }
+        if (mysqli_num_rows($result) > 0) {
+            echo "Użytkownik z tym adresem email już istnieje";
+            mysqli_close($conn);
+            exit;
         }
-        mysqli_close($conn);
+        $haslo_hash = password_hash($haslo, PASSWORD_BCRYPT);
+        $haslo_hash = mysqli_real_escape_string($conn, $haslo_hash);
+
+        $sqlInsert = "INSERT INTO użytkownicy (login, haslo_hash, email, imie, nazwisko, nr_telefonu, rola) 
+        VALUES ('$login', '$haslo_hash', '$email', '$imie', '$nazwisko', '$nr_telefonu', 'klient')";
+        if (!mysqli_query($conn, $sqlInsert)) {
+            die("Błąd dodawania użytkownika: " . mysqli_error($conn));
+        }
     }
+    mysqli_close($conn);
+    echo "OK";
+    exit;
 }
-http_response_code(200);
-echo "OK";
-exit;

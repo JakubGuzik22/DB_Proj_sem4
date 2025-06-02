@@ -1,6 +1,6 @@
 <div class="package-form-container">
     <h2>Nadaj paczkę</h2>
-    <form method="post" action="">
+    <form id="packageForm">
       <label for="name">Imię i nazwisko odbiorcy</label>
       <input type="text" id="name" name="name" placeholder="" required>
 

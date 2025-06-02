@@ -13,7 +13,7 @@
         <input type="text" id="last-name" name="last-name" required>
 
         <label for="phone">Nr. Telefonu</label>
-        <input type="tel" id="phone" name="phone" required>
+        <input type="tel" id="phone" name="phone" required pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
 
         <label for="password">Hasło</label>
         <input type="password" id="password" name="password" required>

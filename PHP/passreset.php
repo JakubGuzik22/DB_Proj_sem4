@@ -1,4 +1,5 @@
 <?php
+
 // Kod do dodania do resetu :)
 
 

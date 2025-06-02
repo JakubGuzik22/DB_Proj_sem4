@@ -1,5 +1,5 @@
 <div class="login-container">
-    <form method="post" action="">
+    <form id="loginForm">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="" required>
         <label for="password">Hasło</label>

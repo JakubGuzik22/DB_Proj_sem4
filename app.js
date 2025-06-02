@@ -20,16 +20,15 @@ function loadForm(type) {
                     method: 'POST',
                     body: formData
                 })
-                .then(res => {
-                    if (res.ok) {
+                .then(res => res.text())
+                .then(response => {
+                    if (response.trim() === 'OK') {
                         loadForm('dialog_register_succesful');
                     } else {
-                        alert("Błąd rejestracji");
+                        alert(response);
                     }
                 })
-                .catch(err => {
-                    console.error("Błąd sieci:", err);
-                });
+                .catch(() => alert("Błąd sieci"));
             });
         }
         if (type === 'form_passreset') {
@@ -54,6 +53,28 @@ function loadForm(type) {
                     } else {
                         form.reportValidity();
                     }
+                });
+            }
+        }
+        if (type === 'form_login') {
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    fetch('/PHP/login.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(response => {
+                        if (response.trim() === 'OK') {
+                            window.location.href = 'home.php';
+                        } else {
+                            alert("Błędny login lub hasło");
+                        }
+                    })
+                    .catch(() => alert("Błąd sieci"));
                 });
             }
         }
