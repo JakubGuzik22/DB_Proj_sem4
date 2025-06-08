@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 	}
 	$email = mysqli_real_escape_string($conn, $email);
-	$sql = "SELECT haslo_hash,login FROM użytkownicy WHERE email='$email'";
+	$sql = "SELECT haslo_hash, login, rola FROM użytkownicy WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
 
 	if(!$result) {

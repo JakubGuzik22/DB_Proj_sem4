@@ -8,16 +8,25 @@ $isLoggedIn = isset($_SESSION['login']);
         <img src="../resources/logo.png" alt="Logo firmy">
     </div>
     <div class="header-right">
-        <nav class="nav">
-            <a href="/">Nadaj paczkę</a>
-            <a href="/">Moje paczki</a>
-        </nav>
-    </div>
-    <div class="user-box">
         <?php if ($isLoggedIn): ?>
-            <button>Zalogowano jako: <?= htmlspecialchars($_SESSION['login']) ?></button>
-        <?php else: ?>
-            <button onclick="event.preventDefault(); loadForm('form_login')">Zaloguj się</button>
+            <nav class="nav">
+                <a href="/">Nadaj paczkę</a>
+                <a href="/">Moje paczki</a>
+            </nav>
         <?php endif; ?>
+        <div class="user-box">
+            <?php if ($isLoggedIn): ?>
+                <form method="post">    
+                    <select name="user_action">
+                        <option disabled selected>Zalogowano jako: <?= htmlspecialchars($_SESSION['login']) ?></option>
+                        <option value="addresses">Moje Adresy</option>
+                        <option value="settings">Ustawienia Konta</option>
+                        <option value="logout">Wyloguj</option>
+                    </select>
+                </form>
+            <?php else: ?>
+                <button onclick="event.preventDefault(); loadForm('form_login')">Zaloguj się</button>
+            <?php endif; ?>
+        </div>
     </div>
 </header>
