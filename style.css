@@ -193,6 +193,11 @@ button {
     color: black;
     font-weight: 500;
   }
+.user-box {
+    display: flex;
+    align-items: center;
+}
+
 .user-box button {
     background-color: black;
     color: white;
@@ -200,5 +205,22 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-  }
+    font-size: 16px;
+    line-height: normal;
+    vertical-align: middle;
+    appearance: none;
+}
+    .user-box select {
+        background-color: black;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        line-height: normal;
+        vertical-align: middle;
+        appearance: none;
+        margin-top: 13px;
+    }
   
