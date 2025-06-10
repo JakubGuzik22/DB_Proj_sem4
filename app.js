@@ -27,13 +27,29 @@ function initUserActionListener() {
                 break;
 
             case 'settings':
-                url = '/PHP/settings.php';
+                url = '/templates/settings.php';
                 fetch(url)
                     .then(res => res.text())
                     .then(html => {
                         document.getElementById('content').innerHTML = html;
+                        const editProfileContainer = document.querySelector('.edit-profile-container');
+                        if (editProfileContainer) {
+                            const saveButton = editProfileContainer.querySelector('.save-btn');
+                            const cancelButton = editProfileContainer.querySelector('.cancel-btn');
+                            if (saveButton) {
+                                saveButton.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    loadForm('change_settings');
+                                });
+                            }
+                            if (cancelButton) {
+                                cancelButton.addEventListener('click', () => {
+                                    console.log('Przycisk "Anuluj" został kliknięty.');
+                                });
+                            }
+                        }
                     })
-                    .catch(() => alert('Błąd sieci'));
+                    .catch(() => showMessageBox('Błąd sieci: Nie można załadować ustawień profilu.'));
                 break;
 
             case 'addresses':
@@ -116,10 +132,39 @@ function loadForm(type) {
                         if (response.trim() === 'OK') {
                             window.location.href = 'home.php';
                         } else {
-                            alert("Błędny email lub hasło");
+                            alert(response);
                         }
                     })
                     .catch(() => alert("Błąd sieci"));
+                });
+            }
+        }
+        if (type === 'change_settings') {
+            const editProfileForm = document.getElementById('editProfileForm');
+            if (editProfileForm) {
+                editProfileForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(editProfileForm);
+                    fetch('PHP/update_profile.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(response => {
+                        if (response.trim() === 'OK') {
+                            showMessageBox('Dane zaktualizowane pomyślnie!');
+                            loadForm('settings')
+                        } else {
+                            showMessageBox('Błąd podczas aktualizacji danych: ' + response);
+                        }
+                    })
+                    .catch(() => showMessageBox("Błąd sieci: Aktualizacja profilu nieudana."));
+                });
+            }
+            const cancelButton = editProfileForm.querySelector('.cancel-btn');
+            if (cancelButton) {
+                cancelButton.addEventListener('click', () => {
+                    loadForm('settings');
                 });
             }
         }

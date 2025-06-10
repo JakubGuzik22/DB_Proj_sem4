@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nazwisko = mysqli_real_escape_string($conn, $nazwisko);
         $nr_telefonu = mysqli_real_escape_string($conn, $nr_telefonu);
 
-        $sqlCheck = "SELECT użytkownik_id FROM użytkownicy WHERE email='$email'";
+        $sqlCheck = "SELECT użytkownik_id FROM `użytkownicy` WHERE email='$email'";
         $result = mysqli_query($conn, $sqlCheck);
         if (!$result) {
             echo "Błąd zapytania";
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $haslo_hash = password_hash($haslo, PASSWORD_BCRYPT);
         $haslo_hash = mysqli_real_escape_string($conn, $haslo_hash);
 
-        $sqlInsert = "INSERT INTO użytkownicy (login, haslo_hash, email, imie, nazwisko, nr_telefonu, rola) 
+        $sqlInsert = "INSERT INTO `użytkownicy` (login, haslo_hash, email, imie, nazwisko, nr_telefonu, rola) 
         VALUES ('$login', '$haslo_hash', '$email', '$imie', '$nazwisko', '$nr_telefonu', 'klient')";
         if (!mysqli_query($conn, $sqlInsert)) {
             die("Błąd dodawania użytkownika: " . mysqli_error($conn));

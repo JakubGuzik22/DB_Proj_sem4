@@ -1,6 +1,23 @@
 <?php
 session_start();
-$isLoggedIn = isset($_SESSION['login']);
+$isLoggedIn = isset($_SESSION['email']);
+mysqli_report(MYSQLI_REPORT_OFF);
+	@$conn = mysqli_connect("localhost", "root", "", "firmakurierska");
+	if (!$conn) {
+            http_response_code(500);
+            echo "Bład połączenia z bazą";
+            exit;
+	}
+    @$email = $_SESSION['email'];
+	$sql = "SELECT login FROM `użytkownicy` WHERE email='$email'";
+    $result = mysqli_query($conn, $sql);
+    if(!$result) {
+		echo "Błąd zapytania";
+		exit;
+	}
+	$row = mysqli_fetch_assoc($result);
+	@$login = $row['login'];
+	mysqli_close($conn);
 ?>
 
 <header class="header">
@@ -18,7 +35,7 @@ $isLoggedIn = isset($_SESSION['login']);
             <?php if ($isLoggedIn): ?>
                 <form method="post">    
                     <select name="user_action">
-                        <option disabled selected>Zalogowano jako: <?= htmlspecialchars($_SESSION['login']) ?></option>
+                        <option disabled selected hidden>Zalogowano jako: <?= htmlspecialchars($login) ?></option>
                         <option value="addresses">Moje Adresy</option>
                         <option value="settings">Ustawienia Konta</option>
                         <option value="logout">Wyloguj</option>

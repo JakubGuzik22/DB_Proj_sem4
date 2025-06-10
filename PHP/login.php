@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 	}
 	$email = mysqli_real_escape_string($conn, $email);
-	$sql = "SELECT haslo_hash, login, rola FROM użytkownicy WHERE email='$email'";
+	$sql = "SELECT * FROM `użytkownicy` WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
 
 	if(!$result) {
@@ -24,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		exit;
 	}
 	if(mysqli_num_rows($result) == 0){
-		echo "Nieprawidłowy email lub hasło";
+		echo "Nieprawidłowy email";
 		exit;
 	}
 	$row = mysqli_fetch_assoc($result);
 	if (password_verify($haslo, $row['haslo_hash'])){
 		session_start();
-		$_SESSION['login'] = $row['login'];
+		$_SESSION['email'] = $row['email'];
 		echo "OK";
 	} else {
-		echo "Nieprawidłowy email lub hasło";
+		echo "Niepoprawne hasło";
 	}
 	mysqli_close($conn);
 }
