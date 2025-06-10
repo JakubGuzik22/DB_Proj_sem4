@@ -3,8 +3,8 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = trim($_POST['login']);
     $email = trim($_POST['email']);
-    $imie = trim($_POST['first-name']);
-    $nazwisko = trim($_POST['last-name']);
+    $imie = trim($_POST['firstName']);
+    $nazwisko = trim($_POST['lastName']);
     $nr_telefonu = trim($_POST['phone']);
     $haslo = $_POST['password'];
 

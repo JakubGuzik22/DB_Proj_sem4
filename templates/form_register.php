@@ -6,14 +6,14 @@
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="first-name">Imię</label>
-        <input type="text" id="first-name" name="first-name" required>
+        <label for="firstName">Imię</label>
+        <input type="text" id="firstName" name="firstName" required>
 
-        <label for="last-name">Nazwisko</label>
-        <input type="text" id="last-name" name="last-name" required>
+        <label for="lastName">Nazwisko</label>
+        <input type="text" id="lastName" name="lastName" required>
 
         <label for="phone">Nr. Telefonu</label>
-        <input type="tel" id="phone" name="phone" required pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
+        <input type="tel" id="phone" name="phone" placeholder="000000000" required pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
 
         <label for="password">Hasło</label>
         <input type="password" id="password" name="password" required>

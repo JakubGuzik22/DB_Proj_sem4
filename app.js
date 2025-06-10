@@ -73,7 +73,7 @@ function loadForm(type) {
                         alert(response);
                     }
                 })
-                .catch(() => alert("Błąd sieci"));
+                .catch(() => alert("Błąd sieci: Rejestracja nie powiodła się"));
             });
         }
         if (type === 'form_passreset') {
@@ -94,7 +94,7 @@ function loadForm(type) {
                                 alert("Błąd resetowania hasła");
                             }
                         })
-                        .catch(() => alert("Błąd sieci"));
+                        .catch(() => alert("Błąd sieci: Reset hasła nie powiodł się"));
                     } else {
                         form.reportValidity();
                     }
@@ -114,12 +114,12 @@ function loadForm(type) {
                     .then(res => res.text())
                     .then(response => {
                         if (response.trim() === 'OK') {
-                            window.location.href = 'home.php';
+                            window.location.href = '/';
                         } else {
                             alert(response);
                         }
                     })
-                    .catch(() => alert("Błąd sieci"));
+                    .catch(() => alert("Błąd sieci: Logowanie nie powiodło się"));
                 });
             }
         }
@@ -136,10 +136,10 @@ function loadForm(type) {
                     .then(res => res.text())
                     .then(response => {
                         if (response.trim() === 'OK') {
-                            showMessageBox('Dane zaktualizowane pomyślnie!');
+                            alert('Dane zaktualizowane pomyślnie!');
                             loadForm('settings')
                         } else {
-                            showMessageBox('Błąd podczas aktualizacji danych: ' + response);
+                            alert(response);
                         }
                     })
                     .catch(() => showMessageBox("Błąd sieci: Aktualizacja profilu nieudana."));

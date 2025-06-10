@@ -31,7 +31,7 @@
     <label for="lastName">Nazwisko: <?= htmlspecialchars($nazwisko) ?></label>
     <label for="phone">Nr. Telefonu: <?= htmlspecialchars($nr_telefonu) ?></label>
     <div class="buttons">
-        <button type="button" class="cancel-btn" onclick="window.location.href='home.php'">Wróć do strony głównej</button>
+        <button type="button" class="cancel-btn" onclick="window.location.href='/'">Wróć do strony głównej</button>
         <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('form_change_settings')">Zmień dane osobiste</button>
     </div>
 </div>
