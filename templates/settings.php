@@ -25,13 +25,13 @@
 	mysqli_close($conn);
 ?>
 
-<div class="edit-profile-container">
+<div class="change-settings-container">
     <label for='firstName'>Login: <?= htmlspecialchars($login) ?></label>
     <label for='firstName'>Imię: <?= htmlspecialchars($imie) ?></label>
     <label for="lastName">Nazwisko: <?= htmlspecialchars($nazwisko) ?></label>
     <label for="phone">Nr. Telefonu: <?= htmlspecialchars($nr_telefonu) ?></label>
     <div class="buttons">
-        <button type="button" class="cancel-btn">Anuluj</button>
-        <button type="submit" class="save-btn">Zmień dane osobiste</button>
+        <button type="button" class="cancel-btn" onclick="window.location.href='home.php'">Wróć do strony głównej</button>
+        <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('form_change_settings')">Zmień dane osobiste</button>
     </div>
 </div>

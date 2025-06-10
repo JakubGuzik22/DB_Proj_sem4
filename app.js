@@ -32,22 +32,6 @@ function initUserActionListener() {
                     .then(res => res.text())
                     .then(html => {
                         document.getElementById('content').innerHTML = html;
-                        const editProfileContainer = document.querySelector('.edit-profile-container');
-                        if (editProfileContainer) {
-                            const saveButton = editProfileContainer.querySelector('.save-btn');
-                            const cancelButton = editProfileContainer.querySelector('.cancel-btn');
-                            if (saveButton) {
-                                saveButton.addEventListener('click', (e) => {
-                                    e.preventDefault();
-                                    loadForm('change_settings');
-                                });
-                            }
-                            if (cancelButton) {
-                                cancelButton.addEventListener('click', () => {
-                                    console.log('Przycisk "Anuluj" został kliknięty.');
-                                });
-                            }
-                        }
                     })
                     .catch(() => showMessageBox('Błąd sieci: Nie można załadować ustawień profilu.'));
                 break;
@@ -139,12 +123,12 @@ function loadForm(type) {
                 });
             }
         }
-        if (type === 'change_settings') {
-            const editProfileForm = document.getElementById('editProfileForm');
-            if (editProfileForm) {
-                editProfileForm.addEventListener('submit', function(e) {
+        if (type === 'form_change_settings') {
+            const changeSettingsForm = document.getElementById('changeSettingsForm');
+            if (changeSettingsForm) {
+                changeSettingsForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const formData = new FormData(editProfileForm);
+                    const formData = new FormData(changeSettingsForm);
                     fetch('PHP/update_profile.php', {
                         method: 'POST',
                         body: formData
@@ -161,7 +145,7 @@ function loadForm(type) {
                     .catch(() => showMessageBox("Błąd sieci: Aktualizacja profilu nieudana."));
                 });
             }
-            const cancelButton = editProfileForm.querySelector('.cancel-btn');
+            const cancelButton = changeSettingsForm.querySelector('.cancel-btn');
             if (cancelButton) {
                 cancelButton.addEventListener('click', () => {
                     loadForm('settings');

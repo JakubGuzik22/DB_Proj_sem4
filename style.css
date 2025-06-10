@@ -106,32 +106,32 @@ button {
 .package-form-container a:hover {
     text-decoration: underline;
   }
-.edit-profile-container {
+.change-settings-container {
     background-color: #fff;
     padding: 30px 20px;
     border-radius: 10px;
     width: 300px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
-.edit-profile-container input[type="text"],
-.edit-profile-container input[type="tel"] {
+.change-settings-container input[type="text"],
+.change-settings-container input[type="tel"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
   }
-.edit-profile-container label {
+.change-settings-container label {
     display: block;
     margin-bottom: 5px;
     color: #333;
   }
-.edit-profile-container .buttons {
+.change-settings-container .buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
   }
-.save-btn {
+.save-btn, .change-btn {
     background-color: #333;
     color: white;
     padding: 10px 15px;
@@ -139,7 +139,7 @@ button {
     border-radius: 8px;
     cursor: pointer;
   }
-.save-btn:hover {
+.save-btn:hover, .change-btn:hover {
     background-color: #555;
   }
 .dialog {
