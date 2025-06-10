@@ -37,7 +37,7 @@ function initUserActionListener() {
                 break;
 
             case 'addresses':
-                url = '/PHP/addresses.php';
+                url = '/templates/addresses.php';
                 fetch(url)
                     .then(res => res.text())
                     .then(html => {
