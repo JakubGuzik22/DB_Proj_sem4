@@ -14,7 +14,6 @@
     $result = mysqli_query($conn, $sql);
     if(!$result) {
 		echo "Błąd zapytania";
-        echo "Błąd zapytania: " . mysqli_error($conn);
 		exit;
 	}
 	$row = mysqli_fetch_assoc($result);
@@ -31,7 +30,10 @@
     <label for="lastName">Nazwisko: <?= htmlspecialchars($nazwisko) ?></label>
     <label for="phone">Nr. Telefonu: <?= htmlspecialchars($nr_telefonu) ?></label>
     <div class="buttons">
-        <button type="button" class="cancel-btn" onclick="window.location.href='/'">Wróć do strony głównej</button>
         <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('form_change_settings')">Zmień dane osobiste</button>
     </div>
 </div>
+
+<footer>
+    <button onclick="window.location.href='/'">Wróć do strony głównej</button>
+</footer>

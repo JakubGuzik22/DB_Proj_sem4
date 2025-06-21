@@ -56,6 +56,27 @@ function loadForm(type) {
     .then(res => res.text())
     .then(html => {
         document.getElementById("content").innerHTML = html;
+        if (type === 'form_change_address') {
+            const addressForm = document.getElementById('changeAddressForm');
+            addressForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(addressForm);
+                fetch('PHP/save_address.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(res => res.text())
+                    .then(response => {
+                        if (response.trim() === 'OK') {
+                            alert('Adres zapisany pomyślnie.');
+                            loadForm('addresses');
+                        } else {
+                            alert(response);
+                        }
+                    })
+                    .catch(() => alert("Błąd sieci: Zapisanie adresu nie powiodło się"));
+            });
+        }
         if (type === 'form_register') {
             const registerForm = document.getElementById('registerForm');
             registerForm.addEventListener('submit', function (e) {
@@ -162,4 +183,63 @@ function closeDialog() {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadHeader();
+});
+function loadAddressForm(adresId = null) {
+    const url = adresId ? `templates/form_change_address.php?adres_id=${adresId}` : 'templates/form_change_address.php';
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+            if (adresId) initEditAddressForm(adresId);
+            else initAddAddressForm();
+        })
+        .catch(() => alert('Błąd sieci: Nie udało się załadować formularza adresu.'));
+}
+function initEditAddressForm(adresId) {
+    const form = document.getElementById('changeAddressForm');
+    if (!form) return;
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        formData.append('adres_id', adresId);
+        fetch('PHP/save_address.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.text())
+            .then(response => {
+                if (response.trim() === 'OK') {
+                    alert('Adres zaktualizowany pomyślnie!');
+                    loadAddressForm(adresId);
+                } else alert(response);
+            })
+            .catch(() => alert('Błąd sieci: Aktualizacja adresu nie powiodła się.'));
+    });
+}
+function initAddAddressForm() {
+    const form = document.getElementById('changeAddressForm');
+    if (!form) return;
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch('PHP/save_address.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.text())
+            .then(response => {
+                if (response.trim() === 'OK') {
+                    alert('Adres dodany pomyślnie!');
+                    loadAddressForm();
+                } else alert(response);
+            })
+            .catch(() => alert('Błąd sieci: Dodanie adresu nie powiodło się.'));
+    });
+}
+
+document.addEventListener('click', e => {
+    if (e.target.classList.contains('btn-edit')) {
+        const adresId = e.target.getAttribute('data-adresid');
+        loadAddressForm(adresId);
+    }
 });
