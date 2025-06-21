@@ -40,6 +40,7 @@
 	} else {
         echo '<div id="no-address-message">';
         echo 'Wygląda na to, że nie masz jeszcze dodanego adresu!';
+        echo '<button class="btn-edit" onclick="loadAddressForm()">Dodaj adres</button>';
         echo '</div>';
     }
     echo '<footer>';
