@@ -30,7 +30,7 @@
     <label for="lastName">Nazwisko: <?= htmlspecialchars($nazwisko) ?></label>
     <label for="phone">Nr. Telefonu: <?= htmlspecialchars($nr_telefonu) ?></label>
     <div class="buttons">
-        <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('form_change_settings')">Zmień dane osobiste</button>
+        <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('formChangeSettings')">Zmień dane osobiste</button>
     </div>
 </div>
 

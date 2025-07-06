@@ -56,7 +56,7 @@ function loadForm(type) {
     .then(res => res.text())
     .then(html => {
         document.getElementById("content").innerHTML = html;
-        if (type === 'form_register') {
+        if (type === 'formRegister') {
             const registerForm = document.getElementById('registerForm');
             registerForm.addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -68,7 +68,7 @@ function loadForm(type) {
                 .then(res => res.text())
                 .then(response => {
                     if (response.trim() === 'OK') {
-                        loadForm('dialog_register_succesful');
+                        loadForm('dialogRegisterSuccesful');
                     } else {
                         alert(response);
                     }
@@ -76,7 +76,7 @@ function loadForm(type) {
                 .catch(() => alert("Błąd sieci: Rejestracja nie powiodła się"));
             });
         }
-        if (type === 'form_passreset') {
+        if (type === 'formPassreset') {
             const form = document.getElementById('passResetForm');
             if (form) {
                 form.addEventListener('submit', function (e) {
@@ -89,7 +89,7 @@ function loadForm(type) {
                         })
                         .then(res => {
                             if (res.ok) {
-                                loadForm('dialog_passreset_succesful');
+                                loadForm('dialogPassresetSuccesful');
                             } else {
                                 alert("Błąd resetowania hasła");
                             }
@@ -101,7 +101,7 @@ function loadForm(type) {
                 });
             }
         }
-        if (type === 'form_login') {
+        if (type === 'formLogin') {
             const form = document.getElementById('loginForm');
             if (form) {
                 form.addEventListener('submit', function (e) {
@@ -123,13 +123,13 @@ function loadForm(type) {
                 });
             }
         }
-        if (type === 'form_change_settings') {
+        if (type === 'formChangeSettings') {
             const changeSettingsForm = document.getElementById('changeSettingsForm');
             if (changeSettingsForm) {
                 changeSettingsForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     const formData = new FormData(changeSettingsForm);
-                    fetch('PHP/update_profile.php', {
+                    fetch('PHP/updateProfile.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -157,14 +157,14 @@ function loadForm(type) {
 
 function closeDialog() {
     document.getElementById("popup").style.display = "none";
-    loadForm('form_login');
+    loadForm('formLogin');
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadHeader();
 });
 function loadAddressForm(adresId = null) {
-    const url = adresId ? `templates/form_change_address.php?adres_id=${adresId}` : 'templates/form_change_address.php';
+    const url = adresId ? `templates/formChangeAddress.php?adres_id=${adresId}` : 'templates/formChangeAddress.php';
     fetch(url)
         .then(res => res.text())
         .then(html => {
@@ -181,7 +181,7 @@ function initEditAddressForm(adresId) {
         e.preventDefault();
         const formData = new FormData(form);
         formData.append('adres_id', adresId);
-        fetch('PHP/save_address.php', {
+        fetch('PHP/saveAddress.php', {
             method: 'POST',
             body: formData
         })
@@ -201,7 +201,7 @@ function initAddAddressForm() {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const formData = new FormData(form);
-        fetch('PHP/save_address.php', {
+        fetch('PHP/saveAddress.php', {
             method: 'POST',
             body: formData
         })
@@ -220,5 +220,27 @@ document.addEventListener('click', e => {
     if (e.target.classList.contains('btn-edit')) {
         const adresId = e.target.getAttribute('data-adresid');
         loadAddressForm(adresId);
+    }
+    if (e.target.classList.contains('btn-delete')) {
+        const adresId = e.target.getAttribute('data-adresid');
+        if (confirm('Czy na pewno chcesz usunąć ten adres?')) {
+            const formData = new FormData();
+            formData.append('adres_id', adresId);
+
+            fetch('PHP/deleteAddress.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(response => {
+                if (response.trim() === 'OK') {
+                    alert('Adres został usunięty.');
+                    loadForm('addresses');
+                } else {
+                    alert('Błąd: ' + response);
+                }
+            })
+            .catch(() => alert('Błąd sieci: Nie udało się usunąć adresu.'));
+        }
     }
 });

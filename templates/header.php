@@ -42,7 +42,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
                     </select>
                 </form>
             <?php else: ?>
-                <button onclick="event.preventDefault(); loadForm('form_login')">Zaloguj się</button>
+                <button onclick="event.preventDefault(); loadForm('formLogin')">Zaloguj się</button>
             <?php endif; ?>
         </div>
     </div>

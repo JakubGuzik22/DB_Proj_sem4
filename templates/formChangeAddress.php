@@ -31,13 +31,13 @@
 <div class="change-address-container">
     <form method="post" id="changeAddressForm">
         <label for="miasto">Miasto</label>
-        <input type="text" id="miasto" name="miasto" placeholder="<?= htmlspecialchars($miasto) ?>" required>
+        <input type="text" id="miasto" name="miasto" placeholder="<?= htmlspecialchars($miasto) ?>">
 
         <label for="ulica">Ulica</label>
-        <input type="text" id="ulica" name="ulica" placeholder="<?= htmlspecialchars($ulica) ?>" required>
+        <input type="text" id="ulica" name="ulica" placeholder="<?= htmlspecialchars($ulica) ?>">
 
         <label for="kod_pocztowy">Kod pocztowy</label>
-        <input type="text" id="kod_pocztowy" name="kod_pocztowy" maxlength="6" placeholder="<?= $kod_pocztowy ? htmlspecialchars($kod_pocztowy) : '00-000' ?>" required pattern="^\d{2}-\d{3}$">
+        <input type="text" id="kod_pocztowy" name="kod_pocztowy" maxlength="6" placeholder="<?= $kod_pocztowy ? htmlspecialchars($kod_pocztowy) : '00-000' ?>" pattern="^\d{2}-\d{3}$">
         
         <div class="buttons">
             <button type="button" class="cancel-btn" onclick="event.preventDefault(); loadForm('addresses');">Anuluj</button>
