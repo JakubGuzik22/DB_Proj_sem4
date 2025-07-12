@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lip 06, 2025 at 02:06 PM
+-- Generation Time: Lip 08, 2025 at 03:48 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -20,18 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `firmakurierska`
 --
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `administratorzy`
---
-
-CREATE TABLE `administratorzy` (
-  `admin_id` int(11) NOT NULL,
-  `użytkownik_id` int(11) NOT NULL,
-  `pesel` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
 
@@ -129,17 +117,6 @@ CREATE TABLE `historia_zamówień` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `klienci`
---
-
-CREATE TABLE `klienci` (
-  `klient_id` int(11) NOT NULL,
-  `użytkownik_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `paczkomaty`
 --
 
@@ -154,14 +131,14 @@ CREATE TABLE `paczkomaty` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `pracownicy_firmowi`
+-- Struktura tabeli dla tabeli `pracownicy_dane`
 --
 
-CREATE TABLE `pracownicy_firmowi` (
+CREATE TABLE `pracownicy_dane` (
   `pracownik_id` int(11) NOT NULL,
   `użytkownik_id` int(11) NOT NULL,
   `pesel` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -175,7 +152,7 @@ CREATE TABLE `przesyłki` (
   `waga` int(11) NOT NULL,
   `typ` enum('ekspres','standard') NOT NULL,
   `adres_id` int(11) DEFAULT NULL,
-  `klient_id` int(11) NOT NULL,
+  `użytkownik_id` int(11) NOT NULL,
   `aktualny_status` enum('oczekuje','w_drodze','dostarczona') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
@@ -210,13 +187,6 @@ INSERT INTO `użytkownicy` (`użytkownik_id`, `login`, `haslo_hash`, `email`, `i
 --
 
 --
--- Indeksy dla tabeli `administratorzy`
---
-ALTER TABLE `administratorzy`
-  ADD PRIMARY KEY (`admin_id`),
-  ADD KEY `użytkownik_id` (`użytkownik_id`);
-
---
 -- Indeksy dla tabeli `adresy`
 --
 ALTER TABLE `adresy`
@@ -226,7 +196,7 @@ ALTER TABLE `adresy`
 -- Indeksy dla tabeli `adresy_paczkomatów`
 --
 ALTER TABLE `adresy_paczkomatów`
-  ADD PRIMARY KEY (`adres_id`),
+  ADD PRIMARY KEY (`adres_id`,`paczkomat_id`),
   ADD KEY `paczkomat_id` (`paczkomat_id`);
 
 --
@@ -244,24 +214,17 @@ ALTER TABLE `historia_zamówień`
   ADD KEY `przesyłka_id` (`przesyłka_id`);
 
 --
--- Indeksy dla tabeli `klienci`
---
-ALTER TABLE `klienci`
-  ADD PRIMARY KEY (`klient_id`),
-  ADD KEY `użytkownik_id` (`użytkownik_id`);
-
---
 -- Indeksy dla tabeli `paczkomaty`
 --
 ALTER TABLE `paczkomaty`
   ADD PRIMARY KEY (`paczkomat_id`);
 
 --
--- Indeksy dla tabeli `pracownicy_firmowi`
+-- Indeksy dla tabeli `pracownicy_dane`
 --
-ALTER TABLE `pracownicy_firmowi`
+ALTER TABLE `pracownicy_dane`
   ADD PRIMARY KEY (`pracownik_id`),
-  ADD KEY `użytkownik_id` (`użytkownik_id`);
+  ADD UNIQUE KEY `użytkownik_id` (`użytkownik_id`);
 
 --
 -- Indeksy dla tabeli `przesyłki`
@@ -269,7 +232,7 @@ ALTER TABLE `pracownicy_firmowi`
 ALTER TABLE `przesyłki`
   ADD PRIMARY KEY (`przesyłka_id`),
   ADD KEY `adres_id` (`adres_id`),
-  ADD KEY `klient_id` (`klient_id`);
+  ADD KEY `klient_id` (`użytkownik_id`);
 
 --
 -- Indeksy dla tabeli `użytkownicy`
@@ -281,12 +244,6 @@ ALTER TABLE `użytkownicy`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `administratorzy`
---
-ALTER TABLE `administratorzy`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `adresy`
@@ -301,21 +258,15 @@ ALTER TABLE `historia_zamówień`
   MODIFY `historia_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `klienci`
---
-ALTER TABLE `klienci`
-  MODIFY `klient_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `paczkomaty`
 --
 ALTER TABLE `paczkomaty`
   MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pracownicy_firmowi`
+-- AUTO_INCREMENT for table `pracownicy_dane`
 --
-ALTER TABLE `pracownicy_firmowi`
+ALTER TABLE `pracownicy_dane`
   MODIFY `pracownik_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -333,12 +284,6 @@ ALTER TABLE `użytkownicy`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `administratorzy`
---
-ALTER TABLE `administratorzy`
-  ADD CONSTRAINT `administratorzy_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`);
 
 --
 -- Constraints for table `adresy_paczkomatów`
@@ -363,23 +308,17 @@ ALTER TABLE `historia_zamówień`
   ADD CONSTRAINT `historia_zamówień_ibfk_1` FOREIGN KEY (`przesyłka_id`) REFERENCES `przesyłki` (`przesyłka_id`);
 
 --
--- Constraints for table `klienci`
+-- Constraints for table `pracownicy_dane`
 --
-ALTER TABLE `klienci`
-  ADD CONSTRAINT `klienci_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`);
-
---
--- Constraints for table `pracownicy_firmowi`
---
-ALTER TABLE `pracownicy_firmowi`
-  ADD CONSTRAINT `pracownicy_firmowi_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`);
+ALTER TABLE `pracownicy_dane`
+  ADD CONSTRAINT `pracownicy_dane_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `przesyłki`
 --
 ALTER TABLE `przesyłki`
   ADD CONSTRAINT `przesyłki_ibfk_1` FOREIGN KEY (`adres_id`) REFERENCES `adresy` (`adres_id`),
-  ADD CONSTRAINT `przesyłki_ibfk_2` FOREIGN KEY (`klient_id`) REFERENCES `klienci` (`klient_id`);
+  ADD CONSTRAINT `przesyłki_ibfk_2` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

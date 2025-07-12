@@ -9,7 +9,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
             exit;
 	}
     @$email = $_SESSION['email'];
-	$sql = "SELECT login FROM `użytkownicy` WHERE email='$email'";
+	$sql = "SELECT login, rola FROM `użytkownicy` WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
     if(!$result) {
 		echo "Błąd zapytania";
@@ -17,6 +17,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
 	}
 	$row = mysqli_fetch_assoc($result);
 	@$login = $row['login'];
+    @$rola = $row['rola'];
 	mysqli_close($conn);
 ?>
 
@@ -27,8 +28,14 @@ mysqli_report(MYSQLI_REPORT_OFF);
     <div class="header-right">
         <?php if ($isLoggedIn): ?>
             <nav class="nav">
-                <a href="/">Nadaj paczkę</a>
-                <a href="/">Moje paczki</a>
+                <a href="#" data-view="formPackage">Nadaj paczkę</a>
+                <a href="#" data-view="myPackages">Moje paczki</a>
+                <?php if ($rola == "pracownik" || $rola == "admin"): ?>
+                <a href="#" data-view="packageManagement">Zarządzanie paczkami</a>
+                <?php endif; ?>
+                <?php if ($rola == "admin"): ?>
+                <a href="#" data-view="userManagement">Zarządzanie użytkownikami</a>
+                <?php endif; ?>
             </nav>
         <?php endif; ?>
         <div class="user-box">

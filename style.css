@@ -323,3 +323,24 @@ footer button:hover {
     background-color: #555;
 
 }
+.package-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.send-btn, .cancel-send-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.send-btn {
+  color: white;
+  border: none;
+}
+
+.cancel-send-btn {
+  color: white;
+  border: none;
+}
