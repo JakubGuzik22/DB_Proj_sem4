@@ -238,7 +238,7 @@ button {
     width: 100%;
 }
 
-.address-block {
+.address-block, .locker-block {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -251,22 +251,29 @@ button {
     box-sizing: border-box;
 }
 
-.address-info {
+.address-info, .locker-info {
     flex-grow: 1;
     font-size: 16px;
 }
 
+.locker-actions button,
 .address-actions button {
     margin-left: 8px;
     padding: 4px 10px;
     cursor: pointer;
 }
 
-.address-block button:hover {
+.locker-actions button:hover,
+.address-block button:hover,
+#no-locker-message button:hover,
+#no-address-message button:hover,
+.address-block button:hover, 
+.locker-block button:hover {
     background-color: #555;
     color: #fff;
 }
 
+#no-locker-message,
 #no-address-message {
     background-color: #fff;
     border-radius: 10px;
@@ -279,7 +286,7 @@ button {
     font-weight: bold;
 }
 
-#btn-add-address {
+/* #btn-add-address {
     margin-top: 20px;
     width: 100%;
     padding: 10px 0;
@@ -294,7 +301,7 @@ button {
 
 #btn-add-address:hover {
     background-color: #555;
-}
+} */
 footer {
     flex-shrink: 0;
     position: fixed;
@@ -428,7 +435,7 @@ footer button:hover {
     box-sizing: border-box;
 }
 
-.address-block {
+.address-block, .locker-block {
     margin: 5px;
     width: 100%;
     max-width: 100%;

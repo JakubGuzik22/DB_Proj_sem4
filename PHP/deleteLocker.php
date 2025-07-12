@@ -13,27 +13,19 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-$adresId = intval($_POST['adres_id'] ?? 0);
-if ($adresId <= 0) {
-    echo "Nieprawidłowy ID adresu";
+$paczkomatId = intval($_POST['paczkomat_id'] ?? 0);
+if ($paczkomatId <= 0) {
+    echo "Nieprawidłowy locker_id";
     exit;
 }
 
-$email = $_SESSION['email'];
-
-$sql = "
-    UPDATE adresy_użytkowników au
-    JOIN użytkownicy u ON au.użytkownik_id = u.użytkownik_id
-    SET au.ukryty = 1
-    WHERE au.adres_id = ? AND u.email = ?
-";
+$sql = "UPDATE adresy_paczkomatów SET ukryty = 1 WHERE paczkomat_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "is", $adresId, $email);
+mysqli_stmt_bind_param($stmt, "i", $paczkomatId);
 if (mysqli_stmt_execute($stmt)) {
     echo "OK";
 } else {
-    echo "Błąd usuwania";
+    echo "Błąd aktualizacji";
 }
 mysqli_stmt_close($stmt);
 mysqli_close($conn);
-?>

@@ -46,9 +46,12 @@ $sql = "
         a.ulica,
         a.kod_pocztowy,
         p.aktualny_status,
-        p.typ_przesyłki
+        p.typ_przesyłki,
+        pm.nazwa AS paczkomat_nazwa
     FROM przesyłki p
     LEFT JOIN adresy a ON p.adres_id = a.adres_id
+    LEFT JOIN adresy_paczkomatów ap ON ap.adres_id = p.adres_id
+    LEFT JOIN paczkomaty pm ON pm.paczkomat_id = ap.paczkomat_id
     WHERE p.użytkownik_id = ?
     ORDER BY p.przesyłka_id DESC
 ";
@@ -72,9 +75,14 @@ if (mysqli_num_rows($result) > 0) {
         echo 'Rozmiar: ' . htmlspecialchars($row["rozmiary"]) . ', ';
         echo 'Waga: ' . htmlspecialchars($row["waga"]) . ', ';
         echo 'Typ: ' . htmlspecialchars($row["typ"]) . ', ';
-        echo 'Adres: ' . htmlspecialchars($row["miasto"]) . ', ' . htmlspecialchars($row["ulica"]) . ', ' . htmlspecialchars($row["kod_pocztowy"]) . ', ';
-        echo 'Status: ' . htmlspecialchars($row["aktualny_status"]) . ' ';
-        // echo 'Typ przesyłki: ' . htmlspecialchars($row["typ_przesyłki"]);
+
+        if ($row["typ_przesyłki"] === 'paczkomat') {
+            echo 'Paczkomat: ' . htmlspecialchars($row["paczkomat_nazwa"]) . ', ';
+        } else {
+            echo 'Adres: ' . htmlspecialchars($row["miasto"]) . ', ' . htmlspecialchars($row["ulica"]) . ', ' . htmlspecialchars($row["kod_pocztowy"]) . ', ';
+        }
+
+        echo 'Status: ' . htmlspecialchars($row["aktualny_status"]);
         echo '</div>';
         echo '</div>';
     }

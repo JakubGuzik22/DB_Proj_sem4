@@ -12,7 +12,6 @@
     if ($adresId) {
         $conn = mysqli_connect("localhost", "root", "", "firmakurierska");
         if (!$conn) {
-            http_response_code(500);
             echo "Błąd połączenia z bazą";
             exit;
         }
