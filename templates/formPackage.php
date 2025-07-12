@@ -94,7 +94,7 @@ mysqli_close($conn);
         <input type="checkbox" id="terms" name="terms" required>
         Akceptuję regulamin
          </label>
-        <a href="/">REGULAMIN</a>
+        <a href="/templates/regulamin.php">REGULAMIN</a>
       </div>
 
       <div class="package-buttons">
