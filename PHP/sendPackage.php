@@ -62,6 +62,14 @@ if (!$stmtInsert) {
 mysqli_stmt_bind_param($stmtInsert, "sisiss", $rozmiar, $wagaInt, $typ, $adres_id, $userId, $typ_przesylki);
 
 if (mysqli_stmt_execute($stmtInsert)) {
+    $przesylkaId = mysqli_insert_id($conn);
+    $sqlHistory = "INSERT INTO historia_zamówień (przesyłka_id, status, data) VALUES (?, 'oczekuje', NOW())";
+    $stmtHistory = mysqli_prepare($conn, $sqlHistory);
+    if ($stmtHistory) {
+        mysqli_stmt_bind_param($stmtHistory, "i", $przesylkaId);
+        mysqli_stmt_execute($stmtHistory);
+        mysqli_stmt_close($stmtHistory);
+    }
     echo "OK";
 } else {
     echo "Błąd zapisu przesyłki.";
