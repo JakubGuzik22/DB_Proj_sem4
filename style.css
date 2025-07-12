@@ -419,3 +419,17 @@ footer button:hover {
   color: #000;
   text-decoration: none;
 }
+
+.packages-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.address-block {
+    margin: 5px;
+    width: 100%;
+    max-width: 100%;
+}
