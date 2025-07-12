@@ -64,6 +64,8 @@ CREATE TABLE `użytkownicy` (
   `rola` enum('admin','klient','pracownik') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
+/*Hasło 123 dla wszystkich użytkowników testowych*/
+
 INSERT INTO `użytkownicy` (`użytkownik_id`, `login`, `haslo_hash`, `email`, `imie`, `nazwisko`, `nr_telefonu`, `rola`) VALUES
 (1, 'TestAdmin', '$2y$10$KE89rvGJzUJ.qf.7BwF2zOVmsikVGI3MQymMlZL0.130Bp6jKxeP.', 'test@admin', 'Test', 'Admin', '123456789', 'admin'),
 (2, 'TestPracownik', '$2y$10$yvnkMgDWgx9u5/l6Yxdd/.uaE30JcP/rw8APIA7I6b02OHzmp1Tym', 'test@pracownik', 'Test', 'Pracownik', '123456789', 'pracownik'),
