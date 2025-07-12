@@ -270,27 +270,40 @@ function loadView(view) {
         .then(res => res.text())
         .then(html => {
             document.getElementById('content').innerHTML = html;
+
             if (view === 'formPackage') {
                 const packageForm = document.getElementById('packageForm');
-                packageForm.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const formData = new FormData(packageForm);
-                    fetch('/PHP/sendPackage.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(response => {
-                        if (response.trim() === 'OK') {
-                            alert("Nadano paczkę.");
-                            loadView('myPackages');
-                        } else {
-                            alert(response);
-                        }
-                    })
-                    .catch(() => alert("Nadanie paczki nie powiodło się"));
-                });
+                if (packageForm) {
+                    packageForm.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const formData = new FormData(packageForm);
+                        fetch('/PHP/sendPackage.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(res => res.text())
+                        .then(response => {
+                            if (response.trim() === 'OK') {
+                                alert("Nadano paczkę.");
+                                loadView('myPackages');
+                            } else {
+                                alert(response);
+                            }
+                        })
+                        .catch(() => alert("Nadanie paczki nie powiodło się"));
+                    });
+                }
+
+                const addressSelect = document.getElementById('address');
+                const typPrzesylki = document.getElementById('typ_przesyłki');
+                if (addressSelect && typPrzesylki) {
+                    addressSelect.addEventListener('change', function () {
+                        typPrzesylki.value = this.options[this.selectedIndex].dataset.type || '';
+                    });
+                    typPrzesylki.value = addressSelect.options[addressSelect.selectedIndex]?.dataset.type || '';
+                }
             }
         })
         .catch(() => alert('Nie udało się załadować widoku.'));
 }
+

@@ -10,11 +10,13 @@ $rozmiar = $_POST['size'] ?? '';
 $waga = trim($_POST['weight'] ?? '');
 $typ = $_POST['type'] ?? '';
 $adres_id = $_POST['address'] ?? '';
-
+$typ_przesylki = $_POST['typ_przesyłki'] ?? '';
+// var_dump($_POST);
 if (!in_array($rozmiar, ['mała', 'średnia', 'duża']) ||
     !in_array($typ, ['ekspres', 'standard']) ||
     !is_numeric($waga) || $waga <= 0 ||
-    !is_numeric($adres_id) || $adres_id <= 0) {
+    !is_numeric($adres_id) || $adres_id <= 0 ||
+    !in_array($typ_przesylki, ['prywatny', 'paczkomat'])) {
     echo "Nieprawidłowe dane wejściowe.";
     exit;
 }
@@ -48,7 +50,8 @@ if (!mysqli_stmt_fetch($stmtUser)) {
 }
 mysqli_stmt_close($stmtUser);
 
-$sqlInsert = "INSERT INTO przesyłki (rozmiary, waga, typ, adres_id, użytkownik_id, aktualny_status) VALUES (?, ?, ?, ?, ?, 'oczekuje')";
+$sqlInsert = "INSERT INTO przesyłki (rozmiary, waga, typ, adres_id, użytkownik_id, aktualny_status, typ_przesyłki) 
+              VALUES (?, ?, ?, ?, ?, 'oczekuje', ?)";
 $stmtInsert = mysqli_prepare($conn, $sqlInsert);
 if (!$stmtInsert) {
     echo "Błąd przygotowania zapytania INSERT.";
@@ -56,7 +59,8 @@ if (!$stmtInsert) {
     exit;
 }
 
-mysqli_stmt_bind_param($stmtInsert, "sisii", $rozmiar, $wagaInt, $typ, $adres_id, $userId);
+mysqli_stmt_bind_param($stmtInsert, "sisiss", $rozmiar, $wagaInt, $typ, $adres_id, $userId, $typ_przesylki);
+
 if (mysqli_stmt_execute($stmtInsert)) {
     echo "OK";
 } else {

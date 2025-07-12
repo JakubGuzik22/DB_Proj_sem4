@@ -18,51 +18,55 @@ if (!isset($_SESSION['email'])) {
 
 $email = trim($_SESSION['email']);
 
-$sql = "
-    SELECT DISTINCT
-        a.adres_id,
-        a.miasto,
-        a.ulica,
-        a.kod_pocztowy
+$sqlPrywatne = "
+    SELECT a.adres_id, a.miasto, a.ulica, a.kod_pocztowy
     FROM użytkownicy u
     JOIN adresy_użytkowników au ON u.użytkownik_id = au.użytkownik_id
     JOIN adresy a ON au.adres_id = a.adres_id
     WHERE u.email = ? AND au.ukryty = 0
 ";
+$stmt1 = mysqli_prepare($conn, $sqlPrywatne);
+mysqli_stmt_bind_param($stmt1, "s", $email);
+mysqli_stmt_execute($stmt1);
+mysqli_stmt_bind_result($stmt1, $adres_id, $miasto, $ulica, $kod_pocztowy);
 
-$stmt = mysqli_prepare($conn, $sql);
-if (!$stmt) {
-    echo "Błąd zapytania.";
-    mysqli_close($conn);
-    exit;
+$prywatneOptions = "";
+while (mysqli_stmt_fetch($stmt1)) {
+    $full = "$ulica, $kod_pocztowy $miasto";
+    $prywatneOptions .= "<option value=\"$adres_id\" data-type=\"prywatny\">$full</option>";
 }
+mysqli_stmt_close($stmt1);
 
-mysqli_stmt_bind_param($stmt, "s", $email);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
-mysqli_stmt_bind_result($stmt, $adres_id, $miasto, $ulica, $kod_pocztowy);
+$sqlPaczkomaty = "
+    SELECT a.adres_id, a.miasto, a.ulica, a.kod_pocztowy, p.nazwa
+    FROM paczkomaty p
+    JOIN adresy_paczkomatów ap ON p.paczkomat_id = ap.paczkomat_id
+    JOIN adresy a ON ap.adres_id = a.adres_id
+    WHERE p.dostępność = 'dostępny'
+";
+$result2 = mysqli_query($conn, $sqlPaczkomaty);
 
-$addressOptions = "";
-
-while (mysqli_stmt_fetch($stmt)) {
-    $fullAddress = $ulica . ", " . $kod_pocztowy . " " . $miasto;
-    $addressOptions .= "<option value=\"" . $adres_id . "\">" . $fullAddress . "</option>";
+$paczkomatOptions = "";
+while ($row = mysqli_fetch_assoc($result2)) {
+    $full = $row['nazwa'] . " – " . $row['ulica'] . ", " . $row['kod_pocztowy'] . " " . $row['miasto'];
+    $paczkomatOptions .= "<option value=\"" . $row['adres_id'] . "\" data-type=\"paczkomat\">$full</option>";
 }
-
-mysqli_stmt_close($stmt);
 mysqli_close($conn);
 ?>
 
 <div class="package-form-container">
     <h2>Nadaj paczkę</h2>
     <form id="packageForm">
-      <!--<label for="name">Imię i nazwisko odbiorcy</label>-->
-      <!-- <input type="text" id="name" name="name" required> -->
 
-      <label for="address">Adres</label>
+      <label for="address">Adres dostawy</label>
       <select id="address" name="address" required>
         <option value="">-- wybierz adres --</option>
-        <?= $addressOptions ?>
+        <optgroup label="Twoje adresy prywatne">
+          <?= $prywatneOptions ?>
+        </optgroup>
+        <optgroup label="Paczkomaty">
+          <?= $paczkomatOptions ?>
+        </optgroup>
       </select>
 
       <label for="size">Rozmiar paczki</label>
@@ -83,9 +87,13 @@ mysqli_close($conn);
         <option value="standard">Standard</option>
       </select>
 
+      <input type="hidden" name="typ_przesyłki" id="typ_przesyłki" value="">
+
       <div style="margin: 15px 0;">
+        <label class="terms-label">
         <input type="checkbox" id="terms" name="terms" required>
-        <label for="terms" style="color: #333;">Akceptuję regulamin</label><br>
+        Akceptuję regulamin
+         </label>
         <a href="/">REGULAMIN</a>
       </div>
 
@@ -94,4 +102,10 @@ mysqli_close($conn);
         <button type="reset" class="cancel-send-btn" onclick="window.location.href='/'">Anuluj</button>
       </div>
     </form>
-</div> 
+</div>
+
+<script>
+  document.getElementById('address').addEventListener('change', function () {
+  console.log('Change event:', this.options[this.selectedIndex].dataset.type);
+});
+</script>
