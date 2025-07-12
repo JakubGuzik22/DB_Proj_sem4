@@ -433,3 +433,78 @@ footer button:hover {
     width: 100%;
     max-width: 100%;
 }
+
+.package-status-form-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.package-status-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.package-status-form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.package-status-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.package-status-form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.package-status-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.package-status-buttons .save-btn {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+    transition: background-color 0.3s ease;
+}
+
+.package-status-buttons .save-btn:hover {
+    background-color: #555;
+}
+
+.package-status-buttons .cancel-btn {
+    background-color: #888;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+    transition: background-color 0.3s ease;
+}
+
+.package-status-buttons .cancel-btn:hover {
+    background-color: #666;
+}
