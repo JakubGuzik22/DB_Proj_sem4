@@ -32,6 +32,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
                 <a href="#" data-view="myPackages">Moje paczki</a>
                 <?php if ($rola == "pracownik" || $rola == "admin"): ?>
                 <a href="#" data-view="packageManagement">Zarządzanie paczkami</a>
+                <a href="#" data-view="packageLockerManagement">Zarządzanie paczkomatami</a>
                 <?php endif; ?>
                 <?php if ($rola == "admin"): ?>
                 <a href="#" data-view="userManagement">Zarządzanie użytkownikami</a>

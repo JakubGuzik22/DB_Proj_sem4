@@ -253,6 +253,10 @@ document.addEventListener('click', e => {
             .catch(() => alert('Nie udało się usunąć adresu.'));
         }
     }
+    if (e.target.classList.contains('btn-edit-status')) {
+        const paczkaId = e.target.getAttribute('data-paczkaid');
+        loadPackageStatusForm(paczkaId);
+    }
 });
 
 function initNavLinks() {
@@ -266,7 +270,7 @@ function initNavLinks() {
 }
 
 function loadView(view) {
-    fetch(`templates/${view}.php`)
+    fetch(`/templates/${view}.php`)
         .then(res => res.text())
         .then(html => {
             document.getElementById('content').innerHTML = html;
@@ -307,3 +311,37 @@ function loadView(view) {
         .catch(() => alert('Nie udało się załadować widoku.'));
 }
 
+function loadPackageStatusForm(paczkaId) {
+    fetch(`/templates/formPackageStatus.php?paczka_id=${paczkaId}`)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+            initEditPackageStatusForm(paczkaId);
+        })
+        .catch(() => alert('Nie udało się załadować formularza edycji paczki.'));
+}
+
+function initEditPackageStatusForm(paczkaId) {
+    const form = document.getElementById('packageStatusForm');
+    if (!form) return;
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        formData.append('paczka_id', paczkaId);
+        fetch('/PHP/savePackageStatus.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.text())
+        .then(response => {
+            if (response.trim() === 'OK') {
+                alert('Status paczki zaktualizowany!');
+                loadView('packageManagement');
+            } else {
+                alert(response);
+            }
+        })
+        .catch(() => alert('Błąd przy zapisie statusu.'));
+    });
+}
