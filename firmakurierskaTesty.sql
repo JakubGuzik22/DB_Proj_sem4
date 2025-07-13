@@ -1,4 +1,3 @@
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -12,7 +11,8 @@ CREATE TABLE `adresy` (
 
 CREATE TABLE `adresy_paczkomatów` (
   `adres_id` int(11) NOT NULL,
-  `paczkomat_id` int(11) NOT NULL
+  `paczkomat_id` int(11) NOT NULL,
+  `ukryty` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE `adresy_użytkowników` (
@@ -36,12 +36,6 @@ CREATE TABLE `paczkomaty` (
   `dostępność` enum('dostępny','niedostępny') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
-CREATE TABLE `pracownicy_dane` (
-  `pracownik_id` int(11) NOT NULL,
-  `użytkownik_id` int(11) NOT NULL,
-  `pesel` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `przesyłki` (
   `przesyłka_id` int(11) NOT NULL,
   `rozmiary` enum('mała','średnia','duża') NOT NULL,
@@ -63,8 +57,6 @@ CREATE TABLE `użytkownicy` (
   `nr_telefonu` varchar(15) NOT NULL,
   `rola` enum('admin','klient','pracownik') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
-
-/*Hasło 123 dla wszystkich użytkowników testowych*/
 
 INSERT INTO `użytkownicy` (`użytkownik_id`, `login`, `haslo_hash`, `email`, `imie`, `nazwisko`, `nr_telefonu`, `rola`) VALUES
 (1, 'TestAdmin', '$2y$10$KE89rvGJzUJ.qf.7BwF2zOVmsikVGI3MQymMlZL0.130Bp6jKxeP.', 'test@admin', 'Test', 'Admin', '123456789', 'admin'),
@@ -89,10 +81,6 @@ ALTER TABLE `historia_zamówień`
 ALTER TABLE `paczkomaty`
   ADD PRIMARY KEY (`paczkomat_id`);
 
-ALTER TABLE `pracownicy_dane`
-  ADD PRIMARY KEY (`pracownik_id`),
-  ADD UNIQUE KEY `użytkownik_id` (`użytkownik_id`);
-
 ALTER TABLE `przesyłki`
   ADD PRIMARY KEY (`przesyłka_id`),
   ADD KEY `adres_id` (`adres_id`),
@@ -103,22 +91,19 @@ ALTER TABLE `użytkownicy`
   ADD UNIQUE KEY `email` (`email`);
 
 ALTER TABLE `adresy`
-  MODIFY `adres_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `adres_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 ALTER TABLE `historia_zamówień`
-  MODIFY `historia_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `historia_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 ALTER TABLE `paczkomaty`
-  MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-ALTER TABLE `pracownicy_dane`
-  MODIFY `pracownik_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `przesyłki`
-  MODIFY `przesyłka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `przesyłka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 ALTER TABLE `użytkownicy`
-  MODIFY `użytkownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `użytkownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 ALTER TABLE `adresy_paczkomatów`
   ADD CONSTRAINT `adresy_paczkomatów_ibfk_1` FOREIGN KEY (`adres_id`) REFERENCES `adresy` (`adres_id`),
@@ -132,9 +117,6 @@ ALTER TABLE `adresy_użytkowników`
 
 ALTER TABLE `historia_zamówień`
   ADD CONSTRAINT `historia_zamówień_ibfk_1` FOREIGN KEY (`przesyłka_id`) REFERENCES `przesyłki` (`przesyłka_id`);
-
-ALTER TABLE `pracownicy_dane`
-  ADD CONSTRAINT `pracownicy_dane_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `przesyłki`
   ADD CONSTRAINT `przesyłki_ibfk_1` FOREIGN KEY (`adres_id`) REFERENCES `adresy` (`adres_id`),

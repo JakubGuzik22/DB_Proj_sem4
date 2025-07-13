@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lip 13, 2025 at 01:57 PM
+-- Generation Time: Lip 13, 2025 at 05:37 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -75,7 +75,7 @@ CREATE TABLE `adresy_paczkomatów` (
 --
 
 INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`, `ukryty`) VALUES
-(14, 1, 1);
+(14, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -172,19 +172,7 @@ CREATE TABLE `paczkomaty` (
 --
 
 INSERT INTO `paczkomaty` (`paczkomat_id`, `nazwa`, `maksymalna_pojemność`, `aktualna_pojemność`, `dostępność`) VALUES
-(1, 'KAT03', 6, 4, 'niedostępny');
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `pracownicy_dane`
---
-
-CREATE TABLE `pracownicy_dane` (
-  `pracownik_id` int(11) NOT NULL,
-  `użytkownik_id` int(11) NOT NULL,
-  `pesel` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(1, 'KAT03', 6, 4, 'dostępny');
 
 -- --------------------------------------------------------
 
@@ -248,11 +236,11 @@ CREATE TABLE `użytkownicy` (
 --
 
 INSERT INTO `użytkownicy` (`użytkownik_id`, `login`, `haslo_hash`, `email`, `imie`, `nazwisko`, `nr_telefonu`, `rola`) VALUES
-(1, 'Kowal', '$2y$10$RZXzyiFdg8/2GAN2zxfH4eze45eQYZtGUPlF5b8SJisQDmh3PYC56', '123@123', '1234', '1234', '123456789', 'klient'),
+(1, 'Kowal', '$2y$10$RZXzyiFdg8/2GAN2zxfH4eze45eQYZtGUPlF5b8SJisQDmh3PYC56', '123@123', '1234', '1234', '123456789', 'pracownik'),
 (2, 'PatKowal', '$2y$10$or6osp4zRzGl6L6Rf/FmseonjeBlgwWOKHd50qSPLoFMuZ3PO9JPe', '123123@1', '1234', '1234', '123456789', 'klient'),
 (3, 'PatKowal', '$2y$10$51ZOla9lJvC1zae05NHBX.had4BM1R1.him8iImO871iKz0QirXJq', '1234@1234', 'Patryk', 'Kowal', '123456789', 'admin'),
 (5, 'TestKlient', '$2y$10$Ln68MFFt7FY2GnyhHGWbaOtUANL5W/5GQ22c315IhemLjHsv/5WGe', 'test@klient', 'Tester', 'Klient', '123456789', 'klient'),
-(6, 'TestPracownik', '$2y$10$yvnkMgDWgx9u5/l6Yxdd/.uaE30JcP/rw8APIA7I6b02OHzmp1Tym', 'test@pracownik', 'Test', 'Pracownik', '123456798', 'pracownik'),
+(6, 'TestPracownik', '$2y$10$8uMlRBt5ME8ykHotkPwrbO5k44203MH.UeO5P8au/CdnhukKYVjgi', 'test@pracownik', 'Test', 'Pracownik', '123456798', 'pracownik'),
 (7, 'TestAdmin', '$2y$10$KE89rvGJzUJ.qf.7BwF2zOVmsikVGI3MQymMlZL0.130Bp6jKxeP.', 'test@admin', 'Test', 'Admin', '123456789', 'admin');
 
 --
@@ -293,13 +281,6 @@ ALTER TABLE `paczkomaty`
   ADD PRIMARY KEY (`paczkomat_id`);
 
 --
--- Indeksy dla tabeli `pracownicy_dane`
---
-ALTER TABLE `pracownicy_dane`
-  ADD PRIMARY KEY (`pracownik_id`),
-  ADD UNIQUE KEY `użytkownik_id` (`użytkownik_id`);
-
---
 -- Indeksy dla tabeli `przesyłki`
 --
 ALTER TABLE `przesyłki`
@@ -335,12 +316,6 @@ ALTER TABLE `historia_zamówień`
 --
 ALTER TABLE `paczkomaty`
   MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `pracownicy_dane`
---
-ALTER TABLE `pracownicy_dane`
-  MODIFY `pracownik_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `przesyłki`
@@ -379,12 +354,6 @@ ALTER TABLE `adresy_użytkowników`
 --
 ALTER TABLE `historia_zamówień`
   ADD CONSTRAINT `historia_zamówień_ibfk_1` FOREIGN KEY (`przesyłka_id`) REFERENCES `przesyłki` (`przesyłka_id`);
-
---
--- Constraints for table `pracownicy_dane`
---
-ALTER TABLE `pracownicy_dane`
-  ADD CONSTRAINT `pracownicy_dane_ibfk_1` FOREIGN KEY (`użytkownik_id`) REFERENCES `użytkownicy` (`użytkownik_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `przesyłki`
