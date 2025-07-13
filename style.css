@@ -512,6 +512,74 @@ footer button:hover {
     transition: background-color 0.3s ease;
 }
 
+.change-locker-container {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.change-locker-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.change-locker-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.change-locker-container input[type="text"],
+.change-locker-container input[type="number"],
+.change-locker-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.change-locker-container .buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.change-locker-container .save-btn {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.change-locker-container .save-btn:hover {
+  background-color: #555;
+}
+
+.change-locker-container .cancel-btn {
+  background-color: #888;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.change-locker-container .cancel-btn:hover {
+  background-color: #666;
+}
+
+
 .package-status-buttons .cancel-btn:hover {
     background-color: #666;
 }
