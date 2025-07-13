@@ -24,9 +24,6 @@ $sql = "
     p.dostępność
     FROM paczkomaty p
 ";
-    // JOIN adresy_paczkomatów ap ON p.paczkomat_id = ap.paczkomat_id
-    // WHERE ap.ukryty = 0
-// ";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {
@@ -46,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
         echo '</div>';
         echo '<div class="locker-actions">';
         echo '<button class="btn-edit" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Zmień</button> ';
-        echo '<button class="btn-delete" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Usuń</button>';
+        echo '<button class="btn-delete" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Zmień dostępność</button>';
         echo '</div>';
         echo '</div>';
     }

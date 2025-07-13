@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lip 12, 2025 at 12:12 PM
+-- Generation Time: Lip 13, 2025 at 01:57 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -55,7 +55,8 @@ INSERT INTO `adresy` (`adres_id`, `miasto`, `ulica`, `kod_pocztowy`) VALUES
 (14, 'Katowice', 'Poniatowskiego', '44-222'),
 (15, 'Gdańsk', '123', '12-123'),
 (16, 'Warszawa', 'Poniatowskiego', '44-222'),
-(17, 'Adr1', '123', '12-111');
+(17, 'Adr1', '123', '12-111'),
+(18, 'Adr1', 'Ul1', '54-544');
 
 -- --------------------------------------------------------
 
@@ -65,15 +66,16 @@ INSERT INTO `adresy` (`adres_id`, `miasto`, `ulica`, `kod_pocztowy`) VALUES
 
 CREATE TABLE `adresy_paczkomatów` (
   `adres_id` int(11) NOT NULL,
-  `paczkomat_id` int(11) NOT NULL
+  `paczkomat_id` int(11) NOT NULL,
+  `ukryty` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Dumping data for table `adresy_paczkomatów`
 --
 
-INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`) VALUES
-(14, 1);
+INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`, `ukryty`) VALUES
+(14, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -106,9 +108,12 @@ INSERT INTO `adresy_użytkowników` (`adres_id`, `użytkownik_id`, `ukryty`) VAL
 (12, 1, 1),
 (13, 1, 1),
 (14, 3, 0),
+(14, 6, 0),
 (15, 3, 0),
 (16, 3, 0),
-(17, 1, 0);
+(17, 1, 0),
+(17, 6, 1),
+(18, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -120,8 +125,33 @@ CREATE TABLE `historia_zamówień` (
   `historia_id` int(11) NOT NULL,
   `przesyłka_id` int(11) NOT NULL,
   `status` enum('oczekuje','w_drodze','dostarczona') NOT NULL,
-  `data` date NOT NULL
+  `data` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+--
+-- Dumping data for table `historia_zamówień`
+--
+
+INSERT INTO `historia_zamówień` (`historia_id`, `przesyłka_id`, `status`, `data`) VALUES
+(1, 9, 'oczekuje', '2025-07-12 00:00:00'),
+(2, 10, 'oczekuje', '2025-07-12 12:41:31'),
+(3, 11, 'oczekuje', '2025-07-12 13:16:36'),
+(4, 11, 'dostarczona', '2025-07-12 14:35:09'),
+(5, 8, 'oczekuje', '2025-07-12 14:43:30'),
+(6, 4, 'oczekuje', '2025-07-12 14:45:42'),
+(7, 2, 'dostarczona', '2025-07-12 14:45:48'),
+(8, 10, 'dostarczona', '2025-07-12 14:52:29'),
+(9, 3, 'oczekuje', '2025-07-12 14:52:43'),
+(10, 9, 'w_drodze', '2025-07-12 19:14:06'),
+(11, 9, 'dostarczona', '2025-07-12 19:27:05'),
+(12, 12, 'oczekuje', '2025-07-12 19:28:10'),
+(13, 12, 'w_drodze', '2025-07-12 19:28:29'),
+(15, 14, 'oczekuje', '2025-07-12 20:16:50'),
+(16, 15, 'oczekuje', '2025-07-12 20:19:58'),
+(17, 16, 'oczekuje', '2025-07-12 20:20:18'),
+(18, 17, 'oczekuje', '2025-07-12 20:45:15'),
+(19, 18, 'oczekuje', '2025-07-12 20:45:24'),
+(20, 19, 'oczekuje', '2025-07-12 20:55:23');
 
 -- --------------------------------------------------------
 
@@ -142,7 +172,7 @@ CREATE TABLE `paczkomaty` (
 --
 
 INSERT INTO `paczkomaty` (`paczkomat_id`, `nazwa`, `maksymalna_pojemność`, `aktualna_pojemność`, `dostępność`) VALUES
-(1, 'KAT03', 40, 0, 'dostępny');
+(1, 'KAT03', 6, 4, 'niedostępny');
 
 -- --------------------------------------------------------
 
@@ -178,13 +208,23 @@ CREATE TABLE `przesyłki` (
 --
 
 INSERT INTO `przesyłki` (`przesyłka_id`, `rozmiary`, `waga`, `typ`, `adres_id`, `typ_przesyłki`, `użytkownik_id`, `aktualny_status`) VALUES
-(2, 'duża', 12, 'standard', 15, 'prywatny', 2, 'oczekuje'),
+(2, 'duża', 12, 'standard', 15, 'prywatny', 2, 'dostarczona'),
 (3, 'duża', 66, 'standard', 10, 'prywatny', 1, 'oczekuje'),
 (4, 'duża', 66, 'standard', 17, 'prywatny', 1, 'oczekuje'),
 (5, 'duża', 77, 'standard', 14, 'prywatny', 3, 'oczekuje'),
 (6, 'duża', 77, 'standard', 14, 'prywatny', 3, 'oczekuje'),
-(7, 'średnia', 40, 'standard', 14, 'paczkomat', 3, 'oczekuje'),
-(8, 'mała', 12, 'standard', 14, 'paczkomat', 3, 'oczekuje');
+(7, 'średnia', 40, 'standard', 14, 'paczkomat', 3, 'w_drodze'),
+(8, 'mała', 12, 'standard', 14, 'paczkomat', 3, 'oczekuje'),
+(9, 'duża', 60, 'ekspres', 14, 'paczkomat', 3, 'dostarczona'),
+(10, 'mała', 15, 'ekspres', 14, 'paczkomat', 3, 'dostarczona'),
+(11, 'duża', 40, 'standard', 14, 'paczkomat', 7, 'dostarczona'),
+(12, 'średnia', 55, 'standard', 14, 'paczkomat', 6, 'w_drodze'),
+(14, 'średnia', 40, 'standard', 14, 'paczkomat', 6, 'oczekuje'),
+(15, 'mała', 20, 'standard', 14, 'paczkomat', 6, 'oczekuje'),
+(16, 'mała', 20, 'standard', 14, 'paczkomat', 6, 'oczekuje'),
+(17, 'średnia', 44, 'standard', 14, 'paczkomat', 6, 'oczekuje'),
+(18, 'średnia', 40, 'standard', 14, 'paczkomat', 6, 'oczekuje'),
+(19, 'średnia', 5, 'ekspres', 14, 'prywatny', 6, 'oczekuje');
 
 -- --------------------------------------------------------
 
@@ -210,7 +250,10 @@ CREATE TABLE `użytkownicy` (
 INSERT INTO `użytkownicy` (`użytkownik_id`, `login`, `haslo_hash`, `email`, `imie`, `nazwisko`, `nr_telefonu`, `rola`) VALUES
 (1, 'Kowal', '$2y$10$RZXzyiFdg8/2GAN2zxfH4eze45eQYZtGUPlF5b8SJisQDmh3PYC56', '123@123', '1234', '1234', '123456789', 'klient'),
 (2, 'PatKowal', '$2y$10$or6osp4zRzGl6L6Rf/FmseonjeBlgwWOKHd50qSPLoFMuZ3PO9JPe', '123123@1', '1234', '1234', '123456789', 'klient'),
-(3, 'PatKowal', '$2y$10$51ZOla9lJvC1zae05NHBX.had4BM1R1.him8iImO871iKz0QirXJq', '1234@1234', 'Patryk', 'Kowal', '123456789', 'admin');
+(3, 'PatKowal', '$2y$10$51ZOla9lJvC1zae05NHBX.had4BM1R1.him8iImO871iKz0QirXJq', '1234@1234', 'Patryk', 'Kowal', '123456789', 'admin'),
+(5, 'TestKlient', '$2y$10$Ln68MFFt7FY2GnyhHGWbaOtUANL5W/5GQ22c315IhemLjHsv/5WGe', 'test@klient', 'Tester', 'Klient', '123456789', 'klient'),
+(6, 'TestPracownik', '$2y$10$yvnkMgDWgx9u5/l6Yxdd/.uaE30JcP/rw8APIA7I6b02OHzmp1Tym', 'test@pracownik', 'Test', 'Pracownik', '123456798', 'pracownik'),
+(7, 'TestAdmin', '$2y$10$KE89rvGJzUJ.qf.7BwF2zOVmsikVGI3MQymMlZL0.130Bp6jKxeP.', 'test@admin', 'Test', 'Admin', '123456789', 'admin');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -279,19 +322,19 @@ ALTER TABLE `użytkownicy`
 -- AUTO_INCREMENT for table `adresy`
 --
 ALTER TABLE `adresy`
-  MODIFY `adres_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `adres_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `historia_zamówień`
 --
 ALTER TABLE `historia_zamówień`
-  MODIFY `historia_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `historia_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `paczkomaty`
 --
 ALTER TABLE `paczkomaty`
-  MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `paczkomat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pracownicy_dane`
@@ -303,13 +346,13 @@ ALTER TABLE `pracownicy_dane`
 -- AUTO_INCREMENT for table `przesyłki`
 --
 ALTER TABLE `przesyłki`
-  MODIFY `przesyłka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `przesyłka_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `użytkownicy`
 --
 ALTER TABLE `użytkownicy`
-  MODIFY `użytkownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `użytkownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

@@ -65,7 +65,7 @@ function loadForm(type) {
           e.preventDefault();
           if (!form.checkValidity()) return form.reportValidity();
           const formData = new FormData(form);
-          fetch('/PHP/passreset.php', { method: 'POST', body: formData })
+          fetch('/PHP/passReset.php', { method: 'POST', body: formData })
             .then(res => {
               if (res.ok) loadForm('dialogPassresetSuccesful');
               else alert("Błąd resetowania hasła");
@@ -107,6 +107,34 @@ function loadForm(type) {
           });
           const cancelButton = changeSettingsForm.querySelector('.cancel-btn');
           if (cancelButton) cancelButton.addEventListener('click', () => loadForm('settings'));
+        }
+      }
+      if (type === 'formChangePassword') {
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        if (changePasswordForm) {
+          changePasswordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (changePasswordForm.newPassword.value !== changePasswordForm.confirmPassword.value) {
+              alert('Nowe hasła nie są takie same!');
+              return;
+            }
+            if (!changePasswordForm.checkValidity()) {
+              changePasswordForm.reportValidity();
+              return;
+            }
+            const formData = new FormData(changePasswordForm);
+            fetch('/PHP/changePassword.php', { method: 'POST', body: formData })
+              .then(res => res.text())
+              .then(response => {
+                if (response.trim() === 'OK') {
+                  alert('Hasło zmienione pomyślnie!');
+                  loadForm('settings');
+                } else {
+                  alert(response);
+                }
+              })
+              .catch(() => alert('Błąd podczas zmiany hasła.'));
+          });
         }
       }
     });
@@ -190,18 +218,18 @@ document.addEventListener('click', e => {
   }
   if (e.target.classList.contains('btn-delete') && e.target.hasAttribute('data-paczkomatId')) {
     const paczkomatId = e.target.getAttribute('data-paczkomatId');
-    if (confirm('Czy na pewno chcesz usunąć ten paczkomat?')) {
+    if (confirm('Czy na pewno chcesz zmienić widoczność tego paczkomatu?')) {
       const formData = new FormData();
       formData.append('paczkomat_id', paczkomatId);
       fetch('PHP/deleteLocker.php', { method: 'POST', body: formData })
         .then(res => res.text())
         .then(response => {
           if (response.trim() === 'OK') {
-            alert('Paczkomat został usunięty.');
+            alert('Widoczność paczkomat została zmieniona.');
             loadView('packageLockerManagement');
           } else alert(response);
         })
-        .catch(() => alert('Nie udało się usunąć paczkomatu.'));
+        .catch(() => alert('Nie udało się zmienić widoczności paczkomatu.'));
     }
   }
   if (e.target.classList.contains('btn-edit') && e.target.hasAttribute('data-paczkomatId')) {

@@ -3,7 +3,6 @@ mysqli_report(MYSQLI_REPORT_OFF);
 @$conn = mysqli_connect("localhost", "root", "", "firmakurierska");
 
 if (!$conn) {
-    http_response_code(500);
     echo "Błąd połączenia z bazą";
     exit;
 }

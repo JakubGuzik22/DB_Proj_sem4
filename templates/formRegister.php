@@ -16,7 +16,7 @@
         <input type="tel" id="phone" name="phone" placeholder="000000000" required pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
 
         <label for="password">Hasło</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required minlength="6">
 
         <div class="buttons">
             <button type="reset" class="cancel-btn" onclick="event.preventDefault(); loadForm('formLogin')">Anuluj</button>

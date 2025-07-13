@@ -4,7 +4,6 @@
     mysqli_report(MYSQLI_REPORT_OFF);
 	@$conn = mysqli_connect("localhost", "root", "", "firmakurierska");
 	if (!$conn) {
-        http_response_code(500);
         echo "Bład połączenia z bazą";
         exit;
 	}
@@ -29,8 +28,9 @@
     <label for='firstName'>Imię: <?= htmlspecialchars($imie) ?></label>
     <label for="lastName">Nazwisko: <?= htmlspecialchars($nazwisko) ?></label>
     <label for="phone">Nr. Telefonu: <?= htmlspecialchars($nr_telefonu) ?></label>
-    <div class="buttons">
+    <div class="buttons vertical">
         <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('formChangeSettings')">Zmień dane osobiste</button>
+        <button type="submit" class="change-btn" onclick="event.preventDefault(); loadForm('formChangePassword')">Zmień hasło</button>
     </div>
 </div>
 

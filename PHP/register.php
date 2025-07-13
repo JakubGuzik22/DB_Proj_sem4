@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_report(MYSQLI_REPORT_OFF);
         @$conn = mysqli_connect("localhost", "root", "", "firmakurierska");
         if (!$conn) {
-            http_response_code(500);
             echo "Bład połączenia z bazą";
             exit;
         }

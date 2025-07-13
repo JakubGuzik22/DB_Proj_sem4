@@ -37,6 +37,12 @@ if ($paczkomatId) {
     mysqli_stmt_close($stmt_check);
 }
 
+if ($maksymalna_pojemnosc < $aktualna_ilosc) {
+    echo "Błąd: maksymalna pojemność nie może być mniejsza niż aktualna ($aktualna_ilosc).";
+    mysqli_close($conn);
+    exit;
+}
+
 if ($paczkomatId) {
     $sql_update = "UPDATE `paczkomaty` SET `nazwa` = ?, `maksymalna_pojemność` = ?, `aktualna_pojemność` = ? WHERE `paczkomat_id` = ?";
     $stmt_update = mysqli_prepare($conn, $sql_update);
@@ -53,7 +59,6 @@ if ($paczkomatId) {
 }
 
 if ($result && $adresId) {
-    // Sprawdź, czy jest już wpis w tabeli adresy_paczkomatów
     $sql_check_link = "SELECT COUNT(*) FROM `adresy_paczkomatów` WHERE `paczkomat_id` = ?";
     $stmt_check_link = mysqli_prepare($conn, $sql_check_link);
     mysqli_stmt_bind_param($stmt_check_link, "i", $paczkomatId);
@@ -63,20 +68,26 @@ if ($result && $adresId) {
     mysqli_stmt_close($stmt_check_link);
 
     if ($count > 0) {
-        // Update
         $sql_update_link = "UPDATE `adresy_paczkomatów` SET `adres_id` = ? WHERE `paczkomat_id` = ?";
         $stmt_update_link = mysqli_prepare($conn, $sql_update_link);
         mysqli_stmt_bind_param($stmt_update_link, "ii", $adresId, $paczkomatId);
         mysqli_stmt_execute($stmt_update_link);
         mysqli_stmt_close($stmt_update_link);
     } else {
-        // Insert
         $sql_insert_link = "INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`, `ukryty`) VALUES (?, ?, 0)";
         $stmt_insert_link = mysqli_prepare($conn, $sql_insert_link);
         mysqli_stmt_bind_param($stmt_insert_link, "ii", $adresId, $paczkomatId);
         mysqli_stmt_execute($stmt_insert_link);
         mysqli_stmt_close($stmt_insert_link);
     }
+}
+
+if ($maksymalna_pojemnosc > $aktualna_ilosc) {
+    $sql_update_dostepnosc = "UPDATE `paczkomaty` SET `dostępność` = 'dostępny' WHERE `paczkomat_id` = ?";
+    $stmt_dostepnosc = mysqli_prepare($conn, $sql_update_dostepnosc);
+    mysqli_stmt_bind_param($stmt_dostepnosc, "i", $paczkomatId);
+    mysqli_stmt_execute($stmt_dostepnosc);
+    mysqli_stmt_close($stmt_dostepnosc);
 }
 
 mysqli_close($conn);
