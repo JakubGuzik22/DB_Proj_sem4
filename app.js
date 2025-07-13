@@ -112,16 +112,27 @@ function loadForm(type) {
       if (type === 'formChangePassword') {
         const changePasswordForm = document.getElementById('changePasswordForm');
         if (changePasswordForm) {
+          const cancelBtn = changePasswordForm.querySelector('.cancel-btn');
+          if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => loadForm('settings'));
+          }
+
           changePasswordForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            if (changePasswordForm.newPassword.value !== changePasswordForm.confirmPassword.value) {
+
+            const newPassword = changePasswordForm.newPassword.value;
+            const confirmPassword = changePasswordForm.confirmPassword.value;
+
+            if (newPassword !== confirmPassword) {
               alert('Nowe hasła nie są takie same!');
               return;
             }
+
             if (!changePasswordForm.checkValidity()) {
               changePasswordForm.reportValidity();
               return;
             }
+
             const formData = new FormData(changePasswordForm);
             fetch('/PHP/changePassword.php', { method: 'POST', body: formData })
               .then(res => res.text())
