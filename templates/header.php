@@ -30,6 +30,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
             <nav class="nav">
                 <a href="#" data-view="formPackage">Nadaj paczkę</a>
                 <a href="#" data-view="myPackages">Moje paczki</a>
+                <a href="#" data-view="history">Historia zamówień</a>
                 <?php if ($rola == "pracownik" || $rola == "admin"): ?>
                 <a href="#" data-view="packageManagement">Zarządzanie paczkami</a>
                 <a href="#" data-view="packageLockerManagement">Zarządzanie paczkomatami</a>
