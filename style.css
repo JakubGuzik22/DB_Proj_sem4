@@ -588,3 +588,63 @@ footer button:hover {
 .package-status-buttons .cancel-btn:hover {
     background-color: #666;
 }
+
+#changePasswordForm {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+#changePasswordForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+#changePasswordForm input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#changePasswordForm .buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+#changePasswordForm .save-btn {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#changePasswordForm .save-btn:hover {
+  background-color: #555;
+}
+
+#changePasswordForm .cancel-btn {
+  background-color: #888;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#changePasswordForm .cancel-btn:hover {
+  background-color: #666;
+}
