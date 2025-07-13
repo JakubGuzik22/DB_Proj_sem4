@@ -648,3 +648,106 @@ footer button:hover {
   background-color: #666;
 }
 
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.user-block {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.user-block > div {
+  font-size: 16px;
+  flex-grow: 1;
+}
+
+.btn-change-role {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-change-role:hover {
+  background-color: #555;
+}
+
+/* Formularz zmiany roli */
+#changeRoleForm {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 300px;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+#changeRoleForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+#changeRoleForm select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#changeRoleForm .buttons.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#changeRoleForm .save-btn {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#changeRoleForm .save-btn:hover {
+  background-color: #555;
+}
+
+#changeRoleForm .cancel-btn {
+  background-color: #888;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#changeRoleForm .cancel-btn:hover {
+  background-color: #666;
+}
+
