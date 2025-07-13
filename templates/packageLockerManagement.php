@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) > 0) {
         echo 'Dostępność: ' . htmlspecialchars($row["dostępność"]);
         echo '</div>';
         echo '<div class="locker-actions">';
-        echo '<button class="btn-edit" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Zmień</button> ';
+        echo '<button class="btn-edit" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Edytuj paczkomat</button> ';
         echo '<button class="btn-delete" data-paczkomatId="' . htmlspecialchars($row["paczkomat_id"]) . '">Zmień dostępność</button>';
         echo '</div>';
         echo '</div>';

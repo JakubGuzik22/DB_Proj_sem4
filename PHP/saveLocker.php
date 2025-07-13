@@ -10,15 +10,17 @@ $paczkomatId = $_POST['paczkomat_id'] ?? null;
 $nazwa = isset($_POST['nazwa']) && trim($_POST['nazwa']) !== '' ? trim($_POST['nazwa']) : null;
 $maksymalna_pojemnosc = isset($_POST['maksymalna_pojemnosc']) ? (int)$_POST['maksymalna_pojemnosc'] : null;
 $adresId = isset($_POST['adres_id']) ? (int)$_POST['adres_id'] : null;
+$dostepnosc = $_POST['dostepnosc'] ?? 'dostępny';
 
 if ($nazwa === null || $maksymalna_pojemnosc === null || $adresId === null) {
     echo "Błąd: wszystkie pola są wymagane.";
     exit;
 }
 
+$ukryty = ($dostepnosc === 'niedostępny') ? 1 : 0;
+
 $conn = mysqli_connect("localhost", "root", "", "firmakurierska");
 if (!$conn) {
-    http_response_code(500);
     echo "Błąd połączenia z bazą danych.";
     exit;
 }
@@ -68,27 +70,26 @@ if ($result && $adresId) {
     mysqli_stmt_close($stmt_check_link);
 
     if ($count > 0) {
-        $sql_update_link = "UPDATE `adresy_paczkomatów` SET `adres_id` = ? WHERE `paczkomat_id` = ?";
+        $sql_update_link = "UPDATE `adresy_paczkomatów` SET `adres_id` = ?, `ukryty` = ? WHERE `paczkomat_id` = ?";
         $stmt_update_link = mysqli_prepare($conn, $sql_update_link);
-        mysqli_stmt_bind_param($stmt_update_link, "ii", $adresId, $paczkomatId);
+        mysqli_stmt_bind_param($stmt_update_link, "iii", $adresId, $ukryty, $paczkomatId);
         mysqli_stmt_execute($stmt_update_link);
         mysqli_stmt_close($stmt_update_link);
     } else {
-        $sql_insert_link = "INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`, `ukryty`) VALUES (?, ?, 0)";
+        $sql_insert_link = "INSERT INTO `adresy_paczkomatów` (`adres_id`, `paczkomat_id`, `ukryty`) VALUES (?, ?, ?)";
         $stmt_insert_link = mysqli_prepare($conn, $sql_insert_link);
-        mysqli_stmt_bind_param($stmt_insert_link, "ii", $adresId, $paczkomatId);
+        mysqli_stmt_bind_param($stmt_insert_link, "iii", $adresId, $paczkomatId, $ukryty);
         mysqli_stmt_execute($stmt_insert_link);
         mysqli_stmt_close($stmt_insert_link);
     }
 }
 
-if ($maksymalna_pojemnosc > $aktualna_ilosc) {
-    $sql_update_dostepnosc = "UPDATE `paczkomaty` SET `dostępność` = 'dostępny' WHERE `paczkomat_id` = ?";
-    $stmt_dostepnosc = mysqli_prepare($conn, $sql_update_dostepnosc);
-    mysqli_stmt_bind_param($stmt_dostepnosc, "i", $paczkomatId);
-    mysqli_stmt_execute($stmt_dostepnosc);
-    mysqli_stmt_close($stmt_dostepnosc);
-}
+$dostepnosc_status = ($ukryty === 1) ? 'niedostępny' : 'dostępny';
+$sql_update_dostepnosc = "UPDATE `paczkomaty` SET `dostępność` = ? WHERE `paczkomat_id` = ?";
+$stmt_dostepnosc = mysqli_prepare($conn, $sql_update_dostepnosc);
+mysqli_stmt_bind_param($stmt_dostepnosc, "si", $dostepnosc_status, $paczkomatId);
+mysqli_stmt_execute($stmt_dostepnosc);
+mysqli_stmt_close($stmt_dostepnosc);
 
 mysqli_close($conn);
 echo $result ? "OK" : "Błąd zapisu paczkomatu.";
