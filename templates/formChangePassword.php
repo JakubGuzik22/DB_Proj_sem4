@@ -8,5 +8,5 @@
     <label for="confirmPassword">Potwierdź nowe hasło:</label><br>
     <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6"><br><br>
 
-    <button type="submit">Zmień hasło</button>
+    <button type="submit" class="save-btn">Zmień hasło</button>
 </form>
