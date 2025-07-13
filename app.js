@@ -249,6 +249,9 @@ document.addEventListener('click', e => {
   if (e.target.classList.contains('btn-edit-status')) {
     loadPackageStatusForm(e.target.getAttribute('data-paczkaid'));
   }
+  if (e.target.classList.contains('btn-change-role') && e.target.hasAttribute('data-userid')) {
+    loadChangeRoleForm(e.target.getAttribute('data-userid'));
+  }
 });
 
 function initNavLinks() {
@@ -371,4 +374,35 @@ function initAddLockerForm() {
       })
       .catch(() => alert('Dodanie paczkomatu nie powiodło się.'));
   });
+}
+
+function loadChangeRoleForm(userId) {
+  fetch(`/templates/formChangeRole.php?user_id=${userId}`)
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('content').innerHTML = html;
+      initChangeRoleForm(userId);
+    })
+    .catch(() => alert('Nie udało się załadować formularza zmiany roli.'));
+}
+
+function initChangeRoleForm(userId) {
+  const form = document.getElementById('changeRoleForm');
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    formData.append('user_id', userId);
+    fetch('/PHP/changeUserRole.php', { method: 'POST', body: formData })
+      .then(res => res.text())
+      .then(response => {
+        if (response.trim() === 'OK') {
+          alert('Rola użytkownika zmieniona pomyślnie!');
+          loadView('userManagement');
+        } else alert(response);
+      })
+      .catch(() => alert('Zmiana roli użytkownika nie powiodła się.'));
+  });
+  const cancelButton = form.querySelector('.cancel-btn');
+  if (cancelButton) cancelButton.addEventListener('click', () => loadView('userManagement'));
 }
