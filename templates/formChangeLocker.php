@@ -53,12 +53,6 @@ mysqli_close($conn);
         <label for="maksymalna_pojemnosc">Maksymalna pojemność</label>
         <input type="number" id="maksymalna_pojemnosc" name="maksymalna_pojemnosc" min="1" value="<?= htmlspecialchars($maks_pojemnosc) ?>" required>
 
-        <label for="dostepnosc">Dostępność</label>
-        <select id="dostepnosc" name="dostepnosc" required>
-            <option value="dostępny" <?= ($dostepnosc === 'dostępny') ? 'selected' : '' ?>>Dostępny</option>
-            <option value="niedostępny" <?= ($dostepnosc === 'niedostępny') ? 'selected' : '' ?>>Niedostępny</option>
-        </select>
-
         <label for="adres_id">Adres paczkomatu</label>
         <select id="adres_id" name="adres_id" required>
             <option value="">-- wybierz adres --</option>
