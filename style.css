@@ -738,6 +738,7 @@ footer button:hover {
 }
 
 #changeRoleForm .cancel-btn {
+  width: 100%;
   background-color: #888;
   color: white;
   padding: 10px;
